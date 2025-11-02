@@ -96,9 +96,9 @@ bool QoiEncode(uint32_t width, uint32_t height, uint8_t channels, uint8_t colors
             // QOI_OP_INDEX
             QoiWriteU8(static_cast<uint8_t>(QOI_OP_INDEX_TAG | idx));
         } else {
-            int dr = static_cast<int>(r) - static_cast<int>(pre_r);
-            int dg = static_cast<int>(g) - static_cast<int>(pre_g);
-            int db = static_cast<int>(b) - static_cast<int>(pre_b);
+            int dr = static_cast<int>(static_cast<int8_t>(static_cast<int>(r) - static_cast<int>(pre_r)));
+            int dg = static_cast<int>(static_cast<int8_t>(static_cast<int>(g) - static_cast<int>(pre_g)));
+            int db = static_cast<int>(static_cast<int8_t>(static_cast<int>(b) - static_cast<int>(pre_b)));
             int da = static_cast<int>(a) - static_cast<int>(pre_a);
 
             if (da != 0) {
@@ -117,8 +117,8 @@ bool QoiEncode(uint32_t width, uint32_t height, uint8_t channels, uint8_t colors
                         (db + 2));
                     QoiWriteU8(byte);
                 } else {
-                    int dgr = dr - dg;
-                    int dgb = db - dg;
+                    int dgr = static_cast<int>(static_cast<int8_t>(dr - dg));
+                    int dgb = static_cast<int>(static_cast<int8_t>(db - dg));
                     if (dg >= -32 && dg <= 31 && dgr >= -8 && dgr <= 7 && dgb >= -8 && dgb <= 7) {
                         // QOI_OP_LUMA
                         uint8_t b1 = static_cast<uint8_t>(QOI_OP_LUMA_TAG | (dg + 32));
